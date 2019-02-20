@@ -17,11 +17,6 @@ import com.faunadb.client.*;
 import com.faunadb.client.types.*;
 import static com.faunadb.client.query.Language.*;
 
-
-/**
- * @author Jayreddy
- *
- */
 public class DataLoading {
 
 
@@ -71,6 +66,7 @@ public class DataLoading {
         logger.info("Created {} index :: \n{}", classIndexName, toPrettyJson(result));
     }
     
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void loadData(FaunaClient client, Class dataClass, String dataTypeName, String jsonFilePath)
 			throws Exception {
 //
@@ -110,37 +106,43 @@ public class DataLoading {
         logger.info("Connected to FaunaDB"); 
         
         ArrayList<String> ClassList = new ArrayList<String>();
-        ClassList.add("products");
+       ClassList.add("products");
         ClassList.add("categories");
         ClassList.add("customers");
         ClassList.add("orders");
+        ClassList.add("suppliers");
+        ClassList.add("employees");
+        ClassList.add("shippers");
+        ClassList.add("regions");
         
 		for (String ClassName : ClassList) {
 			createClass(client, ClassName);
 			Thread.sleep(intervalMillis);
 			createClassIndex(client, ClassName);
-			Thread.sleep(intervalMillis);
-			switch (ClassName) {
-			case "products":
+			Thread.sleep(intervalMillis); 
+			
+			if (ClassName.equals("products"))  {
 				loadData(client, Product.class, ClassName, "./resources/northwinds-json/products.json");
-				break;
-			case "categories":
+			} else if (ClassName.equals("categories")) {
 				loadData(client, Category.class, ClassName, "./resources/northwinds-json/categories.json");
-				break;
-			case "customers":
+			} else if (ClassName.equals("customers")) {
 				loadData(client, Customer.class, ClassName, "./resources/northwinds-json/customers.json");
-				break;
-			case "orders":
+			} else if (ClassName.equals("orders")) {
 				loadData(client, Order.class, ClassName, "./resources/northwinds-json/orders.json");
-				break;
-			default:
-				break;
+			} else if (ClassName.equals("suppliers")) {
+				loadData(client, Supplier.class, ClassName, "./resources/northwinds-json/suppliers.json");
+			} else if (ClassName.equals("employees")) {
+				loadData(client, Employee.class, ClassName, "./resources/northwinds-json/employees.json");
+			} else if (ClassName.equals("shippers")) {
+				loadData(client, Shipper.class, ClassName, "./resources/northwinds-json/shippers.json");
+			} else if (ClassName.equals("regions")) {
+				loadData(client, Region.class, ClassName, "./resources/northwinds-json/regions.json");
+			} else {
+				logger.info("Choose correct class to load");
 			}
 			Thread.sleep(intervalMillis);
 		}
-        
-
-       
+              
 
         //
         // Just to keep things neat and tidy, close the client connections

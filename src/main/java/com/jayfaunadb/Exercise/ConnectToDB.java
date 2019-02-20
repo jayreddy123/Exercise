@@ -21,10 +21,6 @@ import static com.faunadb.client.query.Language.*;
 
 public class ConnectToDB {
 
-	
-//	private static String endpoint = "http://100.24.66.129:8443";
-//	private static String secret = "secret";
-	
 	private static final Logger logger = LoggerFactory.getLogger(ConnectToDB.class);
 	
 	private static ObjectMapper mapper = getMapper();

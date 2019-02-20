@@ -1,12 +1,9 @@
 package com.jayfaunadb.Exercise;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.faunadb.client.types.FaunaConstructor;
 import com.faunadb.client.types.FaunaField;
 import com.faunadb.client.types.Field;
-import com.faunadb.client.types.Value.DateV;
 
 public class Order {
     static final Field<Order> ORDER_FIELD = Field.at("data").to(Order.class);
